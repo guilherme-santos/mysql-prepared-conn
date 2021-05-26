@@ -179,6 +179,15 @@ func printNumberPreparedStmt(db *sql.DB) error {
 	}
 	rows.Close()
 
+	rows, err = db.Query(`SHOW GLOBAL STATUS LIKE 'prepared_stmt_count'`)
+	if err != nil {
+		return err
+	}
+	if err := printLines(rows); err != nil {
+		return err
+	}
+	rows.Close()
+
 	rows, err = db.Query(`SHOW GLOBAL STATUS LIKE 'com_stmt_close'`)
 	if err != nil {
 		return err
